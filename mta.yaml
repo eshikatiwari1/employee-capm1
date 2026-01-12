@@ -1,0 +1,65 @@
+_schema-version: "3.3.0"
+ID: cap
+version: 1.0.0
+description: "CAP minimal deploy3wx|."
+
+parameters:
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+
+modules:
+  # -------------------------------
+  # CAP Service (Node.js)
+  # -------------------------------
+  - name: cap-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: cap-auth
+      - name: cap-db
+
+  # -------------------------------
+  # HANA DB Deployer
+  # -------------------------------
+  - name: cap-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: cap-db
+    parameters:
+      buildpack: nodejs_buildpack
+
+resources:
+  # -------------------------------
+  # XSUAA
+  # -------------------------------
+  - name: cap-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: xs-security.json
+      config:
+        xsappname: cap-${org}-${space}
+        tenant-mode: dedicated
+        oauth2-configuration:
+          credential-types:
+            - "binding-secret"
+            - "x509"
+  - name: cap-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared

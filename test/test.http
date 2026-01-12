@@ -1,0 +1,101 @@
+### ------------------------------------------------------------------
+### Get all employees
+### ------------------------------------------------------------------
+GET http://localhost:4004/odata/v4/employee/Employees
+Accept: application/json
+
+
+### ------------------------------------------------------------------
+### Get employee by ID (E001)
+### ------------------------------------------------------------------
+GET http://localhost:4004/odata/v4/employee/Employees(ID=550e8400-e29b-41d4-a716-446655440001)
+Accept: application/json
+
+
+### ------------------------------------------------------------------
+### Create Employee E001
+### ------------------------------------------------------------------
+POST http://localhost:4004/odata/v4/employee/Employees
+Content-Type: application/json
+
+{
+  "ID": "550e8400-e29b-41d4-a716-446655440001",
+  "employeeId": "E001",
+  "firstName": "Meenakshi",
+  "lastName": "Brahmarouthu",
+  "email": "meenakshi@sap.com",
+  "department": "IT",
+  "role": "Developer",
+  "salary": 75000,
+  "joiningDate": "2024-01-10",
+  "status": "Active",
+  "createdBy": "admin"
+}
+
+
+### ------------------------------------------------------------------
+### Create Employee E002
+### ------------------------------------------------------------------
+POST http://localhost:4004/odata/v4/employee/Employees
+Content-Type: application/json
+
+{
+  "ID": "550e8400-e29b-41d4-a716-446655440002",
+  "employeeId": "E002",
+  "firstName": "eshi",
+  "lastName": "Sharma",
+  "email": "eshi.sharma@sap.com",
+  "department": "HR",
+  "role": "Recruiter",
+  "salary": 60000,
+  "joiningDate": "2023-08-01",
+  "status": "Active",
+  "createdBy": "admin"
+}
+
+
+### ------------------------------------------------------------------
+### Create Employee E003
+### ------------------------------------------------------------------
+POST http://localhost:4004/odata/v4/employee/Employees
+Content-Type: application/json
+
+{
+  "ID": "550e8400-e29b-41d4-a716-446655440003",
+  "employeeId": "E003",
+  "firstName": "Eshika",
+  "lastName": "Verma",
+  "email": "eshika.verma@sap.com",
+  "department": "Finance",
+  "role": "Analyst",
+  "salary": 68000,
+  "joiningDate": "2022-11-15",
+  "status": "Active",
+  "createdBy": "admin"
+}
+
+
+### ------------------------------------------------------------------
+### Update Employee Salary (PATCH)
+### ------------------------------------------------------------------
+PATCH http://localhost:4004/odata/v4/employee/Employees(ID=550e8400-e29b-41d4-a716-446655440003)
+Content-Type: application/json
+
+{
+  "salary": 72000,
+  "modifiedBy": "admin"
+}
+
+
+### ------------------------------------------------------------------
+### Filter Employees by Department (IT)
+### ------------------------------------------------------------------
+GET http://localhost:4004/odata/v4/employee/Employees?$filter=department eq 'IT'
+Accept: application/json
+
+
+### ------------------------------------------------------------------
+### Delete Employee (E005)
+### ------------------------------------------------------------------
+DELETE http://localhost:4004/odata/v4/employee/Employees(ID=550e8400-e29b-41d4-a716-446655440005)
+Accept: application/json
