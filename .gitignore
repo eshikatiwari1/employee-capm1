@@ -1,34 +1,15 @@
-# CAP cap
-_out
-*.db
-*.sqlite
-connection.properties
-default-*.json
-.cdsrc-private.json
-gen/
+cat > .gitignore <<EOF
+# Node
 node_modules/
-target/
+node-v*/
+*.tar.xz
 
-# Web IDE, App Studio
-.che/
-.gen/
+# CAP build output
+gen/
 
-# MTA
-*_mta_build_tmp
-*.mtar
-mta_archives/
+# IDE
+.vscode/
 
-# Other
+# OS
 .DS_Store
-*.orig
-*.log
-
-*.iml
-*.flattened-pom.xml
-
-# IDEs
-# .vscode
-# .idea
-
-# @cap-js/cds-typer
-@cds-models
+EOF
