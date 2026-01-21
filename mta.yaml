@@ -1,65 +1,53 @@
-_schema-version: "3.3.0"
+_schema-version: "3.3"
 ID: cap
 version: 1.0.0
-description: "CAP minimal deploy3wx|."
-
-parameters:
-  enable-parallel-deployments: true
-
-build-parameters:
-  before-all:
-    - builder: custom
-      commands:
-        - npm install
+description: CAP application with HANA HDI container and XSUAA auth
 
 modules:
-  # -------------------------------
-  # CAP Service (Node.js)
-  # -------------------------------
+  # Node.js CAP service module
   - name: cap-srv
     type: nodejs
     path: gen/srv
     parameters:
-      instances: 1
-      buildpack: nodejs_buildpack
+      memory: 1024M
+      disk-quota: 1024M
+    build-parameters:
+      builder: npm
+      before-all:
+        - npm ci
+        - npx cds build --production
+    requires:
+      - name: cap-db
+      - name: cap-auth
     provides:
       - name: srv-api
         properties:
           srv-url: ${default-url}
-    requires:
-      - name: cap-auth
-      - name: cap-db
 
-  # -------------------------------
-  # HANA DB Deployer
-  # -------------------------------
+  # HDI deployer module
   - name: cap-db-deployer
     type: hdb
     path: gen/db
     requires:
       - name: cap-db
-    parameters:
-      buildpack: nodejs_buildpack
 
 resources:
-  # -------------------------------
-  # XSUAA
-  # -------------------------------
-  - name: cap-auth
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: xsuaa
-      service-plan: application
-      path: xs-security.json
-      config:
-        xsappname: cap-${org}-${space}
-        tenant-mode: dedicated
-        oauth2-configuration:
-          credential-types:
-            - "binding-secret"
-            - "x509"
+  # HANA HDI container
   - name: cap-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
+
+  # XSUAA authentication service
+  - name: cap-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      config:
+        xsappname: cap-${org}-${space}
+        tenant-mode: dedicated
+
+parameters:
+  enable-parallel-deployments: true

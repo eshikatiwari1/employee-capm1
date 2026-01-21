@@ -1,48 +1,36 @@
 {
   "name": "cap",
   "version": "1.0.0",
-  "description": "CAP project (SQLite local, HANA + XSUAA on BTP)",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^9",
-    "@cap-js/hana": "^2.5.1",
-    "@sap/xssec": "^4.12.1",
+    "@cap-js/hana": "^2",
+    "@sap/cds": "^9.6.4",
     "@sap/xsenv": "^6.0.0",
-    "express": "^4",
-    "sqlite3": "^5.1.7"
+    "@sap/xssec": "^4.12.1",
+    "express": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^2.1.2",
     "@sap/cds-dk": "^9",
-    "eslint": "^9.39.2"
+    "@sap/ux-ui5-tooling": "^1.20.1",
+    "@ui5/cli": "^4.0.39",
+    "cds-plugin-ui5": "^0.13.6",
+    "eslint": "^7.32.0",
+    "mbt": "^1.2.29",
+    "rimraf": "^5.0.5"
   },
-  "scripts": {
-    "start": "cds serve"
-  },
-  "cds": {
-    "requires": {
-      "db": {
-        "kind": "sqlite",
-        "model": ["db"],
-        "credentials": {
-          "database": "db.sqlite"
-        }
-      },
-      "auth": {
-        "kind": "mocked"
-      }
-    },
-    "env": {
-      "production": {
-        "requires": {
-          "db": {
-            "kind": "hana"
-          },
-          "auth": {
-            "kind": "xsuaa"
-          }
-        }
-      }
-    }
+"scripts": {
+  "start": "cds run"
+},
+"engines": {
+  "node": "18.x"
+},
+
+  "requires": {
+  "db": {
+    "kind": "hana",
+    "model": ["db/"]
   }
+}
+
 }

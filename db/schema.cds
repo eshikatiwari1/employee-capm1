@@ -1,18 +1,12 @@
 namespace my.employee;
 
 entity Employees {
-  key ID         : UUID;
-      employeeId : String;
-      firstName  : String;
-      lastName   : String;
-      email      : String;
-      department : String;
-      role       : String;
-      salary     : Integer;
-      joiningDate: Date;
-      status     : String;
-      createdAt  : Timestamp;
-      createdBy  : String;
-      modifiedAt : Timestamp;
-      modifiedBy : String;
+    key ID          : UUID;
+    firstName       : String(100);
+    lastName        : String(100);
+    email           : String(100);
+    department      : String(50);
+    role            : String(50);
+    salary          : Integer;
+    joiningDate     : Date;
 }
