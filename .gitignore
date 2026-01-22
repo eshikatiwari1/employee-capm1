@@ -13,3 +13,6 @@ gen/
 # OS
 .DS_Store
 EOF
+
+# added by cds
+.cdsrc-private.json
